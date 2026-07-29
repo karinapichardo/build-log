@@ -107,6 +107,14 @@
   .build-preview video{width:100%; display:block;}
   .preview-progress{height:3px; width:100%; background:var(--line);}
   .preview-progress-bar{height:100%; width:0%; background:var(--coral); transition:width .1s linear;}
+  .build-preview{position:relative; cursor:pointer;}
+  .expand-hint{
+    position:absolute; top:12px; right:12px; background:rgba(0,0,0,.6); color:#fff;
+    font-family:'JetBrains Mono', monospace; font-size:11px; padding:6px 10px; border-radius:20px;
+    opacity:0; transition:opacity .2s ease; pointer-events:none;
+  }
+  .build-preview:hover .expand-hint{opacity:1;}
+  @media (max-width:760px){ .expand-hint{opacity:1;} }
   .metrics-row{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
   .metric{background:var(--coral-soft); border-radius:12px; padding:14px 18px; min-width:106px;}
   .metric .num{font-family:'Fraunces', serif; font-size:25px; font-weight:600; color:var(--coral); display:block;}
@@ -258,9 +266,10 @@
           <span class="status-tag">Attempt 01</span>
         </div>
         <p class="build-desc">An AI-powered platform that pulls PLUTO, ACRIS, DOB, HPD, DOF, ECB, BIS, permits, complaints, and mortgage history for any NYC property into one place — so a private lender can get a lending recommendation, red flags, and a credit memo in under a minute instead of hours of manual research. Built solo: landing page, branding, frontend, backend, AI layer, database, integrations, pricing, and roadmap.</p>
-        <div class="build-preview">
+        <div class="build-preview" id="previewWrap">
           <video src="./underlink-demo.mp4" autoplay muted loop playsinline id="demoVideo"></video>
           <div class="preview-progress"><div class="preview-progress-bar" id="previewProgressBar"></div></div>
+          <div class="expand-hint">⤢ Tap to expand</div>
         </div>
         <div class="metrics-row">
           <div class="metric"><span class="num">60s</span><span class="label">Address → pre-screen</span></div>
@@ -444,6 +453,7 @@
 <script>
   const demoVideo = document.getElementById('demoVideo');
   const previewBar = document.getElementById('previewProgressBar');
+  const previewWrap = document.getElementById('previewWrap');
   if(demoVideo && previewBar){
     demoVideo.addEventListener('timeupdate', () => {
       if(demoVideo.duration){
@@ -451,6 +461,19 @@
       }
     });
   }
+  if(previewWrap && demoVideo){
+    previewWrap.addEventListener('click', () => {
+      if(demoVideo.requestFullscreen) demoVideo.requestFullscreen();
+      else if(demoVideo.webkitEnterFullscreen) demoVideo.webkitEnterFullscreen();
+      else if(demoVideo.webkitRequestFullscreen) demoVideo.webkitRequestFullscreen();
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if(!document.hidden && demoVideo){ demoVideo.play().catch(()=>{}); }
+  });
+  window.addEventListener('pageshow', () => {
+    if(demoVideo){ demoVideo.play().catch(()=>{}); }
+  });
 </script>
 
 </body>
