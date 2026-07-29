@@ -158,6 +158,9 @@
   .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
   .foot-row p{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--muted); margin:0; font-weight:700;}
 
+
+  section[id], #attempt-01, #article-underlink{scroll-margin-top:84px;}
+
   #connect{padding:20px 0 40px;}
   .connect-card{
     background:var(--ink); color:var(--bg); border-radius:var(--radius);
@@ -376,6 +379,18 @@
 </footer>
 
 <script>
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href').slice(1);
+      const target = document.getElementById(targetId);
+      if(!target) return;
+      e.preventDefault();
+      if(target.tagName === 'DETAILS') target.open = true;
+      const headerOffset = 84;
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+    });
+  });
   const menuBtn = document.getElementById('menuBtn');
   const mobilePanel = document.getElementById('mobilePanel');
   menuBtn.addEventListener('click', () => {
