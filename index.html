@@ -23,7 +23,6 @@
     --card:#FCFCFA;
     --ink:#1E2233;
     --ink-soft:#4B5065;
-    --muted:#8C90A0;
     --coral:#4A3AFF;
     --coral-soft:#4A3AFF14;
     --sage:#1E9B8A;
@@ -104,6 +103,10 @@
   .status-tag{font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; background:var(--sage-soft); color:var(--sage); white-space:nowrap;}
   .build-tagline{color:var(--coral); font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12.5px; margin-top:8px;}
   .build-desc{margin-top:18px; line-height:1.75; color:var(--ink-soft); max-width:620px; font-size:15px; font-weight:500;}
+  .build-preview{margin-top:20px; border-radius:12px; overflow:hidden; border:1px solid var(--line); background:var(--bg);}
+  .build-preview video{width:100%; display:block;}
+  .preview-progress{height:3px; width:100%; background:var(--line);}
+  .preview-progress-bar{height:100%; width:0%; background:var(--coral); transition:width .1s linear;}
   .metrics-row{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
   .metric{background:var(--coral-soft); border-radius:12px; padding:14px 18px; min-width:106px;}
   .metric .num{font-family:'Fraunces', serif; font-size:25px; font-weight:600; color:var(--coral); display:block;}
@@ -111,9 +114,11 @@
   .learnings{margin-top:26px; border-top:1px dashed var(--line); padding-top:20px;}
   .learnings h4{font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--sage); margin:0 0 12px; font-weight:700;}
   .learnings ul{margin:0; padding-left:18px; color:var(--ink-soft); font-size:14.5px; line-height:1.85; font-weight:500;}
-  .build-links{margin-top:24px;}
+  .build-links{margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;}
   .btn{font-family:'Work Sans', sans-serif; font-weight:700; font-size:13px; text-decoration:none; padding:11px 18px; border-radius:24px; border:2px solid var(--coral); color:var(--coral); display:inline-flex; align-items:center; gap:6px; transition:all .15s;}
   .btn:hover{background:var(--coral); color:#fff;}
+  .btn-primary{background:var(--coral); color:#fff;}
+  .btn-primary:hover{background:var(--coral); opacity:.88; color:#fff;}
 
   .next-attempt{border:1.5px dashed var(--line); border-radius:var(--radius); padding:24px 32px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
   .next-attempt .lbl{font-size:13.5px; color:var(--ink-soft); font-weight:700;}
@@ -253,6 +258,10 @@
           <span class="status-tag">Attempt 01</span>
         </div>
         <p class="build-desc">An AI-powered platform that pulls PLUTO, ACRIS, DOB, HPD, DOF, ECB, BIS, permits, complaints, and mortgage history for any NYC property into one place — so a private lender can get a lending recommendation, red flags, and a credit memo in under a minute instead of hours of manual research. Built solo: landing page, branding, frontend, backend, AI layer, database, integrations, pricing, and roadmap.</p>
+        <div class="build-preview">
+          <video src="./underlink-demo.mp4" autoplay muted loop playsinline id="demoVideo"></video>
+          <div class="preview-progress"><div class="preview-progress-bar" id="previewProgressBar"></div></div>
+        </div>
         <div class="metrics-row">
           <div class="metric"><span class="num">60s</span><span class="label">Address → pre-screen</span></div>
           <div class="metric"><span class="num">9</span><span class="label">Data sources</span></div>
@@ -266,7 +275,10 @@
             <li>Engineering was the easy part; sales & distribution were the real work</li>
           </ul>
         </div>
-        <div class="build-links"><a class="btn" href="#article-underlink">Read the full writeup ↓</a></div>
+        <div class="build-links">
+          <a class="btn btn-primary" href="https://www.underlink.online/" target="_blank" rel="noopener">View Live Demo ↗</a>
+          <a class="btn" href="#article-underlink">Read the full writeup ↓</a>
+        </div>
       </div>
 
       <div class="next-attempt reveal">
@@ -426,6 +438,18 @@
     cell.title = isDone ? 'Attempt 01 — Underlink' : 'Attempt ' + String(i).padStart(2,'0') + ' — not started';
     if(isDone){ cell.href = '#attempt-01'; cell.style.textDecoration = 'none'; cell.style.cursor = 'pointer'; }
     grid.appendChild(cell);
+  }
+</script>
+
+<script>
+  const demoVideo = document.getElementById('demoVideo');
+  const previewBar = document.getElementById('previewProgressBar');
+  if(demoVideo && previewBar){
+    demoVideo.addEventListener('timeupdate', () => {
+      if(demoVideo.duration){
+        previewBar.style.width = (demoVideo.currentTime / demoVideo.duration * 100) + '%';
+      }
+    });
   }
 </script>
 
