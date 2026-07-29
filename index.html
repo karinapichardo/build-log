@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karina Pichardo — Build Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F0EC;
+    --card:#FCFCFA;
+    --ink:#1E2233;
+    --ink-soft:#4B5065;
+    --muted:#8C90A0;
+    --coral:#4A3AFF;
+    --coral-soft:#4A3AFF14;
+    --sage:#1E9B8A;
+    --sage-soft:#1E9B8A16;
+    --line:#DDDFE2;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Work Sans', sans-serif; -webkit-font-smoothing:antialiased;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 72px 72px; background-position: -1px -1px;
+  }
+  ::selection{background:var(--coral); color:#fff;}
+  a{color:inherit;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 32px;}
+  h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em;}
+  .eyebrow{font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--coral); font-weight:700;}
+
+  header.site{position:sticky; top:0; z-index:50; background:rgba(251,244,234,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .navbar{max-width:1060px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{font-family:'Fraunces', serif; font-weight:600; font-size:19px; text-decoration:none; color:var(--ink); display:flex; align-items:baseline; gap:8px;}
+  .brand span{font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--coral); font-weight:700;}
+  nav.links{display:flex; gap:26px; align-items:center;}
+  nav.links a{text-decoration:none; font-size:14px; color:var(--ink-soft); font-weight:700; transition:color .15s;}
+  nav.links a:hover{color:var(--coral);}
+  .socials{display:flex; gap:10px; margin-left:6px;}
+  .socials a{width:30px; height:30px; border-radius:50%; background:var(--card); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; text-decoration:none; color:var(--ink-soft); transition:all .15s;}
+  .socials a:hover{border-color:var(--coral); color:var(--coral);}
+  .socials svg{width:13px; height:13px;}
+  .menu-btn{display:none; background:none; border:1px solid var(--line); border-radius:8px; width:38px; height:38px; align-items:center; justify-content:center; color:var(--ink); cursor:pointer;}
+  .menu-btn svg{width:18px; height:18px;}
+  .mobile-panel{display:none; flex-direction:column; padding:6px 20px 18px; border-top:1px solid var(--line); background:var(--bg);}
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{text-decoration:none; color:var(--ink-soft); font-weight:700; font-size:15px; padding:12px 0; border-bottom:1px solid var(--line);}
+  .mobile-socials{display:flex; gap:18px; padding-top:14px;}
+  .mobile-socials a{border:none; padding:0; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--coral); font-weight:700;}
+  @media (max-width:760px){
+    nav.links{display:none;}
+    .menu-btn{display:flex;}
+    section.hero{padding:60px 0 44px;}
+    .build-card{padding:26px 22px;}
+    .teardown-template{padding:26px 22px;}
+    .article-summary{padding:20px 20px;}
+    .article-body{padding:0 20px 26px;}
+    .counter-block{gap:28px;}
+  }
+
+  section.hero{padding:92px 0 60px;}
+  .hero-top{max-width:620px;}
+  .hero h1{font-size:clamp(36px, 5.2vw, 56px); line-height:1.08; font-weight:600; margin-top:14px;}
+  .hero h1 em{font-style:italic; font-weight:500; color:var(--coral);}
+  .hero p.lede{font-size:16.5px; line-height:1.7; color:var(--ink-soft); max-width:520px; margin-top:20px; font-weight:500;}
+
+  .counter-block{margin-top:52px; display:flex; gap:44px; flex-wrap:wrap; align-items:center;}
+  .counter-grid{display:grid; grid-template-columns:repeat(5, 32px); gap:7px;}
+  .cell{
+    width:32px; height:32px; border-radius:9px; border:1px solid var(--line); background:var(--card);
+    display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:700;
+    position:relative; transition:transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s ease, background .28s ease, color .28s ease, z-index 0s;
+  }
+  .cell:hover{transform:scale(1.55); box-shadow:0 10px 24px rgba(30,34,51,.18); z-index:10; color:var(--ink); border-color:var(--coral);}
+  .cell.active:hover{box-shadow:0 10px 26px rgba(74,58,255,.35);}
+  .cell.active{background:var(--coral); border-color:var(--coral); color:#fff;}
+  .counter-caption{font-size:13.5px; color:var(--ink-soft); max-width:230px; line-height:1.65; font-weight:600;}
+  .counter-caption b{color:var(--coral);}
+
+  .section-head{padding:52px 0 6px; display:flex; align-items:baseline; gap:14px; border-top:1px solid var(--line); margin-top:36px;}
+  .section-head h2{font-size:29px; font-weight:600;}
+  section > .wrap > p.section-sub{color:var(--ink-soft); font-size:15px; max-width:500px; margin:10px 0 36px; font-weight:600;}
+
+  .build-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:38px; margin-bottom:22px; box-shadow:0 8px 24px rgba(43,35,28,.04); transition:transform .3s ease, box-shadow .3s ease;}
+  .build-card:hover{transform:translateY(-4px); box-shadow:0 16px 36px rgba(43,35,28,.08);}
+  .build-head{display:flex; justify-content:space-between; align-items:flex-start; gap:22px; flex-wrap:wrap;}
+  .build-head h3{font-size:25px; font-weight:600;}
+  .status-tag{font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; background:var(--sage-soft); color:var(--sage); white-space:nowrap;}
+  .build-tagline{color:var(--coral); font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12.5px; margin-top:8px;}
+  .build-desc{margin-top:18px; line-height:1.75; color:var(--ink-soft); max-width:620px; font-size:15px; font-weight:500;}
+  .metrics-row{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
+  .metric{background:var(--coral-soft); border-radius:12px; padding:14px 18px; min-width:106px;}
+  .metric .num{font-family:'Fraunces', serif; font-size:25px; font-weight:600; color:var(--coral); display:block;}
+  .metric .label{font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-soft); font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+  .learnings{margin-top:26px; border-top:1px dashed var(--line); padding-top:20px;}
+  .learnings h4{font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--sage); margin:0 0 12px; font-weight:700;}
+  .learnings ul{margin:0; padding-left:18px; color:var(--ink-soft); font-size:14.5px; line-height:1.85; font-weight:500;}
+  .build-links{margin-top:24px;}
+  .btn{font-family:'Work Sans', sans-serif; font-weight:700; font-size:13px; text-decoration:none; padding:11px 18px; border-radius:24px; border:2px solid var(--coral); color:var(--coral); display:inline-flex; align-items:center; gap:6px; transition:all .15s;}
+  .btn:hover{background:var(--coral); color:#fff;}
+
+  .next-attempt{border:1.5px dashed var(--line); border-radius:var(--radius); padding:24px 32px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
+  .next-attempt .lbl{font-size:13.5px; color:var(--ink-soft); font-weight:700;}
+  .next-attempt .lbl b{color:var(--ink);}
+
+  .article-card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); margin-bottom:16px; overflow:hidden; box-shadow:0 4px 16px rgba(43,35,28,.03); transition:transform .3s ease, box-shadow .3s ease;}
+  .article-card:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(43,35,28,.07);}
+  .article-summary{padding:24px 30px; display:flex; justify-content:space-between; align-items:center; gap:18px; cursor:pointer; list-style:none;}
+  .article-summary::-webkit-details-marker{display:none;}
+  .article-summary h3{font-size:18px; font-weight:600;}
+  .article-meta{font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--muted); margin-top:6px; font-weight:700;}
+  .article-toggle{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--coral); font-weight:700; white-space:nowrap; display:flex; align-items:center; gap:6px;}
+  .article-toggle .chevron{display:inline-block; transition:transform .18s ease;}
+  details[open] .article-toggle .chevron{transform:rotate(90deg);}
+  .article-body{padding:0 30px 34px; color:var(--ink-soft); font-size:15px; line-height:1.85; max-width:670px; font-weight:500;}
+  .article-body p{margin:0 0 15px;}
+  .article-body .quote{border-left:3px solid var(--coral); padding-left:16px; font-style:italic; color:var(--ink); margin:18px 0; font-weight:600;}
+  .article-body h5{font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--sage); margin:26px 0 10px; font-weight:700;}
+
+  .teardown-template{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:34px 38px; box-shadow:0 4px 16px rgba(43,35,28,.03);}
+  .qgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px 28px; margin-top:22px;}
+  @media (max-width:700px){ .qgrid{grid-template-columns:1fr;} }
+  .qitem{display:flex; gap:11px; padding:11px 13px; border-radius:10px; background:var(--bg);}
+  .qitem .qn{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--coral); font-weight:700; flex-shrink:0; padding-top:2px;}
+  .qitem .qt{font-size:14px; color:var(--ink-soft); font-weight:600;}
+  .empty-note{margin-top:24px; padding-top:20px; border-top:1px dashed var(--line); font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--muted); font-weight:700;}
+
+  .about-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:52px; align-items:start;}
+  @media (max-width:800px){ .about-grid{grid-template-columns:1fr;} }
+  .about-bio p{color:var(--ink-soft); font-size:15.5px; line-height:1.8; margin:0 0 16px; font-weight:500;}
+  .about-bio .quote{color:var(--ink); font-family:'Fraunces', serif; font-style:italic; font-weight:500; font-size:19px; line-height:1.5; margin-bottom:22px;}
+  .timeline{display:flex; flex-direction:column; gap:14px;}
+  .tl-item{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; transition:transform .25s ease, box-shadow .25s ease;}
+  .tl-item:hover{transform:translateX(4px); box-shadow:0 6px 18px rgba(43,35,28,.06);}
+  .tl-item .tl-date{font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:700;}
+  .tl-item h4{font-family:'Fraunces', serif; font-weight:600; font-size:16.5px; margin:4px 0 2px;}
+  .tl-item .tl-sub{font-size:13px; color:var(--ink-soft); font-weight:600;}
+  .skills-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
+  .skill-pill{font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; background:var(--sage-soft); color:var(--sage);}
+
+  footer{margin-top:96px; border-top:1px solid var(--line); padding:34px 0 46px;}
+  .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  .foot-row p{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--muted); margin:0; font-weight:700;}
+
+  #connect{padding:20px 0 40px;}
+  .connect-card{
+    background:var(--ink); color:var(--bg); border-radius:var(--radius);
+    padding:52px 48px; text-align:left; position:relative; overflow:hidden;
+  }
+  .connect-card .eyebrow{color:#FF9F6B;}
+  .connect-card h2{color:#fff; font-size:clamp(26px, 3.4vw, 36px); font-weight:600; margin-top:14px; max-width:620px; line-height:1.2;}
+  .connect-text{color:#CBCEDB; font-size:15.5px; line-height:1.75; max-width:540px; margin-top:16px; font-weight:500;}
+  .connect-links{display:flex; gap:14px; margin-top:28px; flex-wrap:wrap;}
+  .connect-links .btn{border-color:#fff; color:#fff;}
+  .connect-links .btn:hover{background:#fff; color:var(--ink);}
+  .connect-links .ghost-alt{background:transparent; border:2px solid #4A4E63; color:#CBCEDB;}
+  .connect-links .ghost-alt:hover{border-color:#fff; color:#fff; background:transparent;}
+  @media (max-width:760px){ .connect-card{padding:36px 26px;} }
+
+  /* Scroll reveal */
+  .reveal{opacity:0; transform:translateY(36px); transition:opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1);}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  .reveal-fade{opacity:0; transition:opacity .8s ease;}
+  .reveal-fade.visible{opacity:1;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-fade{opacity:1 !important; transform:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="navbar">
+    <a class="brand" href="#top">Karina Pichardo <span>ATTEMPT 01/25</span></a>
+    <nav class="links">
+      <a href="#builds">Builds</a>
+      <a href="#writing">Writing</a>
+      <a href="#research">Research</a>
+      <a href="#about">About</a>
+      <a href="#connect">Connect</a>
+      <div class="socials">
+        <a href="https://github.com/karinapichardo" target="_blank" rel="noopener" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.1 3.29 9.4 7.86 10.94.57.1.78-.25.78-.55 0-.27-.01-1.15-.02-2.09-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.2.66.79.55A10.52 10.52 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/karina-pichardo21/" target="_blank" rel="noopener" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.24h4v14.76h-4V8.24zm7.5 0h3.83v2.02h.05c.53-1 1.85-2.05 3.8-2.05 4.06 0 4.81 2.67 4.81 6.14v8.65h-4v-7.67c0-1.83-.03-4.18-2.55-4.18-2.55 0-2.94 1.99-2.94 4.05v7.8h-4V8.24z"/></svg>
+        </a>
+        <a href="https://x.com/karinapichardox" target="_blank" rel="noopener" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.5h3.7l-8.1 9.3 9.5 12.7h-7.5l-5.9-7.7-6.7 7.7H0l8.7-10-9.1-12h7.6l5.4 7.1 6.3-7.1zm-1.3 19.6h2l-13-17.3H4.5l13.1 17.3z"/></svg>
+        </a>
+      </div>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-panel" id="mobilePanel">
+    <a href="#builds">Builds</a>
+    <a href="#writing">Writing</a>
+    <a href="#research">Research</a>
+    <a href="#about">About</a>
+    <a href="#connect">Connect</a>
+    <div class="mobile-socials">
+      <a href="https://github.com/karinapichardo" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/karina-pichardo21/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/karinapichardox" target="_blank" rel="noopener">X</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-top reveal">
+        <div class="eyebrow">Software engineer · Building toward a company</div>
+        <h1>Twenty-five attempts.<br>This is <em>#1</em> of them.</h1>
+        <p class="lede">I'm documenting every project I build on the way to a company — what I built, who I showed it to, what they said, and what I'd do differently. Some of these will be dead ends. That's the point.</p>
+      </div>
+      <div class="counter-block reveal">
+        <div class="counter-grid" id="counterGrid"></div>
+        <div class="counter-caption"><b>1 attempt logged.</b> 24 to go — each one should teach me something the last one couldn't.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="builds">
+    <div class="wrap">
+      <div class="section-head reveal"><span class="eyebrow">Log</span><h2>Builds</h2></div>
+      <p class="section-sub">Every attempt gets a full writeup: what it does, what I learned, and whether it's still running.</p>
+
+      <div class="build-card reveal" id="attempt-01">
+        <div class="build-head">
+          <div><h3>Underlink</h3><div class="build-tagline">NYC LENDING INTELLIGENCE FOR PRIVATE LENDERS</div></div>
+          <span class="status-tag">Attempt 01</span>
+        </div>
+        <p class="build-desc">An AI-powered platform that pulls PLUTO, ACRIS, DOB, HPD, DOF, ECB, BIS, permits, complaints, and mortgage history for any NYC property into one place — so a private lender can get a lending recommendation, red flags, and a credit memo in under a minute instead of hours of manual research. Built solo: landing page, branding, frontend, backend, AI layer, database, integrations, pricing, and roadmap.</p>
+        <div class="metrics-row">
+          <div class="metric"><span class="num">60s</span><span class="label">Address → pre-screen</span></div>
+          <div class="metric"><span class="num">9</span><span class="label">Data sources</span></div>
+          <div class="metric"><span class="num">$500</span><span class="label">Founding rate</span></div>
+        </div>
+        <div class="learnings">
+          <h4>What I'd do differently</h4>
+          <ul>
+            <li>Talk to customers before building, not after</li>
+            <li>Started in too small a market — TAM needs room to iterate</li>
+            <li>Engineering was the easy part; sales & distribution were the real work</li>
+          </ul>
+        </div>
+        <div class="build-links"><a class="btn" href="#article-underlink">Read the full writeup ↓</a></div>
+      </div>
+
+      <div class="next-attempt reveal">
+        <div class="lbl">Attempt 02 — not started yet</div>
+        <div class="lbl">Whatever it teaches me, it'll show up here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="writing">
+    <div class="wrap">
+      <div class="section-head reveal"><span class="eyebrow">Writing</span><h2>Articles</h2></div>
+      <p class="section-sub">Build logs and retrospectives, written as I go.</p>
+
+      <details class="article-card reveal" id="article-underlink">
+        <summary class="article-summary">
+          <div><h3>Underlink — Attempt #1</h3><div class="article-meta">BUILD LOG · ATTEMPT 01</div></div>
+          <span class="article-toggle"><span class="chevron">▸</span> Read</span>
+        </summary>
+        <div class="article-body">
+          <p>Back in November of 2025, I attended a business forum in Miami with one of the sickest lineups I've ever seen — Serena Williams, Jamie Dimon, Ken Griffin, Lionel Messi, Jeff Bezos, to name a few. One thing Jeff Bezos said really stuck with me: he was talking about real estate development, and how it shouldn't take so long for developers to figure out whether a property can actually be built on. The data already exists. You should be able to get an answer in seconds.</p>
+          <p>That got me thinking — if the data already exists, what else can you do with it? So I started looking at New York City specifically. At first I was underwhelmed: the government websites were slow, inconsistent, scattered. But then something clicked — instead of seeing terrible government websites, I started seeing a technology problem. That eventually became Underlink.</p>
+          <h5>What I built</h5>
+          <p>Underlink is an AI-powered lending intelligence platform built for NYC private lenders. Instead of jumping between PLUTO, ACRIS, DOB, HPD, DOF, ECB, BIS, permits, complaints, and mortgage history, a lender could search one property and have everything surfaced in one place. I wasn't trying to replace underwriters — I wanted to help them get to a quality first impression in minutes instead of hours. Underlink was built to answer one question: <i>"Is this property worth spending more time on?"</i></p>
+          <h5>What I learned</h5>
+          <p>I thought the hardest part would be building the software. It wasn't — building the product was the easy part. Trying to make a company out of it was the hard part.</p>
+          <p>The first person I showed it to, someone working in commercial real estate lending, told me:</p>
+          <div class="quote">"I'd use this as a prescreen."</div>
+          <p>That one comment changed my positioning — I'd been thinking of Underlink as a full underwriting platform, but it made more sense as something lenders used in the first few minutes of evaluating a deal. I changed the marketing to match. Then I showed it to someone who owned a commercial lending firm. We talked for an hour. At the end he said:</p>
+          <div class="quote">"This is impressive... I just don't think I'd pay for it."</div>
+          <p>That was hard to hear, but it was one of the most valuable conversations I had. He wasn't criticizing the engineering — he was telling me I hadn't created enough value to justify paying for it. Building something impressive isn't enough. You have to build something people are willing to pay for.</p>
+          <p>I also started too small. If there are only 100 potential customers and you're trying to land 20 of them, that's an enormous share of the entire market — small markets make everything harder. And as an engineer, being able to build my own product is a huge advantage, but building the software isn't the company. Sales, marketing, finance, customer discovery, distribution, positioning — those are all skills too, and sales especially felt uncomfortable. You can build an amazing product, and then you actually have to go show it to people. That's the whole game.</p>
+          <p>This project also taught me something about myself: I love messy data. I love taking information spread across dozens of places, figuring out how it connects, and structuring it into something useful. That's probably the biggest thing I'll carry into whatever I build next.</p>
+          <h5>Looking forward</h5>
+          <p>This is attempt #1. I'm completely okay if it takes 25 attempts — not because I expect all 25 to work, but because I expect every one to teach me something the previous one couldn't. I don't know which attempt will be the one. Maybe it's #2. Maybe it's #8. Maybe it's #25.</p>
+          <p>Underlink didn't become the company I hoped it would. It became something just as valuable: the foundation for how I'll build every company after it. On to attempt #2.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="research">
+    <div class="wrap">
+      <div class="section-head reveal"><span class="eyebrow">Research</span><h2>Startup teardowns</h2></div>
+      <p class="section-sub">Same eight questions, every company — a fast way to build real investor intuition in public.</p>
+      <div class="teardown-template reveal">
+        <div class="eyebrow">The template</div>
+        <div class="qgrid">
+          <div class="qitem"><span class="qn">01</span><span class="qt">What do they do?</span></div>
+          <div class="qitem"><span class="qn">02</span><span class="qt">Who are the customers?</span></div>
+          <div class="qitem"><span class="qn">03</span><span class="qt">How do they make money?</span></div>
+          <div class="qitem"><span class="qn">04</span><span class="qt">How much have they raised?</span></div>
+          <div class="qitem"><span class="qn">05</span><span class="qt">What's the valuation?</span></div>
+          <div class="qitem"><span class="qn">06</span><span class="qt">Why are investors excited?</span></div>
+          <div class="qitem"><span class="qn">07</span><span class="qt">What am I skeptical about?</span></div>
+          <div class="qitem"><span class="qn">08</span><span class="qt">What do I still not understand?</span></div>
+        </div>
+        <div class="empty-note">No teardowns published yet — the first one lands here, plus a linked video breakdown.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal"><span class="eyebrow">About</span><h2>Karina Pichardo</h2></div>
+      <p class="section-sub">Software engineer, New York — building toward a company, one attempt at a time.</p>
+      <div class="about-grid">
+        <div class="about-bio reveal">
+          <p class="quote">"Geek is chic."</p>
+          <p>I'm a software engineer based in New York. Most recently I was the founding engineer at Hopscotch, where I built the payment processing system enabling secure multi-method B2B payments, led the internal compliance and operations dashboard, implemented OAuth-based auth with role-based access control, and shipped AI-powered bill pay using OCR to automate invoice workflows.</p>
+          <p>Underlink was my first solo attempt at turning that into a company. I'm now working through the rest of the 25 — writing up what each one teaches me, and building a research habit alongside it by breaking down other startups the same way, question by question.</p>
+          <div class="skills-row">
+            <span class="skill-pill">Full-stack</span>
+            <span class="skill-pill">API integrations</span>
+            <span class="skill-pill">OAuth / KYC</span>
+            <span class="skill-pill">Product</span>
+            <span class="skill-pill">AI-native builds</span>
+          </div>
+        </div>
+        <div class="timeline reveal">
+          <div class="tl-item"><div class="tl-date">2026 — Present</div><h4>Founder / Builder</h4><div class="tl-sub">Working on attempt 02 — Attempt 01 (Underlink) documented below</div></div>
+          <div class="tl-item"><div class="tl-date">Dec 2021 — Jan 2024</div><h4>Software Engineer, Hopscotch</h4><div class="tl-sub">Founding engineer · payments, compliance tooling, auth</div></div>
+          <div class="tl-item"><div class="tl-date">2013 — 2018</div><h4>Berkeley College</h4><div class="tl-sub">B.S., Legal Studies — Cum Laude</div></div>
+          <div class="tl-item"><div class="tl-date">2012 — 2013</div><h4>Web Developer, Passaic County Technical Institute</h4><div class="tl-sub">Website updates in HTML/CSS · code review for browser & device compatibility</div></div>
+          <div class="tl-item"><div class="tl-date">2009 — 2013</div><h4>Passaic County Technical-Vocational Schools</h4><div class="tl-sub">Computer Science</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="connect">
+    <div class="wrap">
+      <div class="connect-card reveal">
+        <div class="eyebrow">Say hi</div>
+        <h2>I love meeting people and learning from them.</h2>
+        <p class="connect-text">If you're building something, thinking about building something, or just want to talk — I'm always down. I live in East Village. Let's connect!</p>
+        <div class="connect-links">
+          <a class="btn" href="https://x.com/karinapichardox" target="_blank" rel="noopener">Message me on X</a>
+          <a class="btn ghost-alt" href="https://www.linkedin.com/in/karina-pichardo21/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <p>© 2026 Karina Pichardo. Attempt 01 of 25 documented.</p>
+    <p>Built in public.</p>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const mobilePanel = document.getElementById('mobilePanel');
+  menuBtn.addEventListener('click', () => {
+    const isOpen = mobilePanel.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', isOpen);
+  });
+  mobilePanel.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobilePanel.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+<script>
+  const grid = document.getElementById('counterGrid');
+  for(let i=1;i<=25;i++){
+    const isDone = i===1;
+    const cell = document.createElement(isDone ? 'a' : 'div');
+    cell.className = 'cell' + (isDone ? ' active' : '');
+    cell.textContent = String(i).padStart(2,'0');
+    cell.title = isDone ? 'Attempt 01 — Underlink' : 'Attempt ' + String(i).padStart(2,'0') + ' — not started';
+    if(isDone){ cell.href = '#attempt-01'; cell.style.textDecoration = 'none'; cell.style.cursor = 'pointer'; }
+    grid.appendChild(cell);
+  }
+</script>
+
+</body>
+</html>
