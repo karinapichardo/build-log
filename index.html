@@ -128,7 +128,7 @@
   .btn-primary{background:var(--coral); color:#fff;}
   .btn-primary:hover{background:var(--coral); opacity:.88; color:#fff;}
 
-  .next-attempt{border:1.5px dashed var(--line); border-radius:var(--radius); padding:24px 32px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
+  .next-attempt{margin-top:20px; border:1.5px dashed var(--line); border-radius:var(--radius); padding:24px 32px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
   .next-attempt .lbl{font-size:13.5px; color:var(--ink-soft); font-weight:700;}
   .next-attempt .lbl b{color:var(--ink);}
 
@@ -172,7 +172,7 @@
   .foot-row p{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--muted); margin:0; font-weight:700;}
 
 
-  section[id], #attempt-01, #article-underlink{scroll-margin-top:84px;}
+  section[id], #attempt-01, #attempt-02, #article-underlink, #article-str-analyzer{scroll-margin-top:84px;}
 
   #connect{padding:20px 0 40px;}
   .connect-card{
@@ -203,7 +203,7 @@
 
 <header class="site">
   <div class="navbar">
-    <a class="brand" href="#top">Karina Pichardo <span>ATTEMPT 01/25</span></a>
+    <a class="brand" href="#top">Karina Pichardo <span>ATTEMPT 02/25</span></a>
     <nav class="links">
       <a href="#builds">Builds</a>
       <a href="#writing">Writing</a>
@@ -245,12 +245,12 @@
     <div class="wrap">
       <div class="hero-top reveal">
         <div class="eyebrow">Software engineer · Building toward a company</div>
-        <h1>Twenty-five attempts.<br>This is <em>#1</em> of them.</h1>
+        <h1>Twenty-five attempts.<br>Two down <em>so far</em>.</h1>
         <p class="lede">I'm documenting every project I build on the way to a company — what I built, who I showed it to, what they said, and what I'd do differently. Some of these will be dead ends. That's the point.</p>
       </div>
       <div class="counter-block reveal">
         <div class="counter-grid" id="counterGrid"></div>
-        <div class="counter-caption"><b>1 attempt logged.</b> 24 to go — each one should teach me something the last one couldn't.</div>
+        <div class="counter-caption"><b>2 attempts logged.</b> 23 to go — each one should teach me something the last one couldn't.</div>
       </div>
     </div>
   </section>
@@ -290,8 +290,33 @@
         </div>
       </div>
 
+      <div class="build-card reveal" id="attempt-02">
+        <div class="build-head">
+          <div><h3>STR Analyzer</h3><div class="build-tagline">DEAL-SCREENING TOOL FOR SHORT-TERM RENTAL INVESTORS</div></div>
+          <span class="status-tag">Attempt 02</span>
+        </div>
+        <p class="build-desc">A lead qualification and deal-screening tool for short-term rental investors. Enter a property address and get an instant go/no-go on whether it clears a 15% yield threshold — using real property data, revenue estimates, actual comparable listings, and a full expense model. Built after manually underwriting around 40 properties by hand first, to understand how experienced investors actually make the call.</p>
+        <div class="metrics-row">
+          <div class="metric"><span class="num">40</span><span class="label">Properties underwritten by hand first</span></div>
+          <div class="metric"><span class="num">3</span><span class="label">APIs integrated</span></div>
+          <div class="metric"><span class="num">15%</span><span class="label">Target yield threshold</span></div>
+        </div>
+        <div class="learnings">
+          <h4>What I learned</h4>
+          <ul>
+            <li>Your product depends on other companies too — a small vendor (AirROI) went unresponsive for weeks, which is a real risk when your product relies on their API</li>
+            <li>A working product isn't the same as a good business — found a company (Prevu) that tried a similar model, raised $8M, and exited for only $10M after ~10 years</li>
+            <li>Curiosity is enough to build an MVP. It isn't enough to keep showing up for five years — I paused this because I didn't love the problem enough, not because it didn't work</li>
+          </ul>
+        </div>
+        <div class="build-links">
+          <a class="btn btn-primary" href="https://str-analyzer-iota.vercel.app/" target="_blank" rel="noopener">View Live Demo ↗</a>
+          <a class="btn" href="#article-str-analyzer">Read the full writeup ↓</a>
+        </div>
+      </div>
+
       <div class="next-attempt reveal">
-        <div class="lbl">Attempt 02 — not started yet</div>
+        <div class="lbl">Attempt 03 — not started yet</div>
         <div class="lbl">Whatever it teaches me, it'll show up here.</div>
       </div>
     </div>
@@ -324,6 +349,28 @@
           <h5>Looking forward</h5>
           <p>This is attempt #1. I'm completely okay if it takes 25 attempts — not because I expect all 25 to work, but because I expect every one to teach me something the previous one couldn't. I don't know which attempt will be the one. Maybe it's #2. Maybe it's #8. Maybe it's #25.</p>
           <p>Underlink didn't become the company I hoped it would. It became something just as valuable: the foundation for how I'll build every company after it. On to attempt #2.</p>
+        </div>
+      </details>
+
+      <details class="article-card reveal" id="article-str-analyzer">
+        <summary class="article-summary">
+          <div><h3>STR Analyzer — Attempt #2</h3><div class="article-meta">BUILD LOG · ATTEMPT 02</div></div>
+          <span class="article-toggle"><span class="chevron">▸</span> Read</span>
+        </summary>
+        <div class="article-body">
+          <p>One of the most valuable conversations I had while building Underlink came from a lender who told me he wouldn't pay for it. But before we ended the call, he said something else:</p>
+          <div class="quote">"You should look into the short-term rental market."</div>
+          <p>That stuck with me. One of the biggest lessons I'd already learned from Underlink was that market size matters — commercial real estate lending was a relatively small market, and short-term rental investing was significantly larger. That alone made me curious. So I decided to learn everything I could.</p>
+          <h5>What I built</h5>
+          <p>The first thing I did wasn't write code. I asked an experienced investor to walk me through exactly how he evaluated a property, then went and did it myself — manually underwriting around 40 properties over the next few days, watching hours of YouTube, and reading everything I could find. I wasn't trying to build software yet. I was trying to think like the person the software was for. Only after I understood the workflow did I ask myself one question: which parts of this can software actually automate?</p>
+          <p>That became the project. I built a lead qualification and deal-screening tool for short-term rental investors — an investor enters a property address, and within seconds the platform tells them whether it clears a target yield using property data, revenue estimates, comparable listings, and a full expense model. Instead of pulling information across a dozen tabs and spreadsheets, an investor gets an instant go/no-go before deciding whether a property is even worth spending more time on. I integrated several APIs to make it work, including RealtyAPI, Google Maps, and AirROI. The hard part was never the interface — it was recreating an experienced investor's decision-making process in software.</p>
+          <h5>What I learned</h5>
+          <p>This project reinforced something I first discovered while building Underlink: I can walk into an industry I know nothing about, learn how experts make decisions, break that down into first principles, and figure out what software can automate. Being an outsider actually helped — I wasn't thinking about how things had always been done, I was just trying to understand the workflow well enough to build something useful.</p>
+          <p>I also carried over a lesson from my time at Hopscotch: your product isn't just your code, it's also the companies your product depends on. I relied on AirROI for revenue estimates. They seemed legitimate, but they were small, and when I emailed them with a technical question, I never heard back. Weeks went by. Nothing. That changed how I think about vendor risk — if your product depends on someone else's API, your business depends on their reliability too.</p>
+          <p>Then there was the business model question. An investor mentioned that experienced buyers often skip a traditional agent entirely and handle transactions themselves. That got me thinking — what if a platform hired in-house agents, paid them salaries, and split the buyer's commission with customers? Before I got too excited, I went looking for who'd already tried it, and found Prevu. They'd raised around $8 million, operated for about ten years, and were eventually acquired for around $10 million. That immediately caught my attention — if this business model was so compelling, why wasn't the outcome bigger? I started digging into the economics. That was the real lesson: building a product people use doesn't automatically mean you've built a great business. The business model has to work too.</p>
+          <p>The last lesson was the hardest one. After I showed the MVP to that same investor, he gave me several ideas for how to differentiate it. Technically, I could have built every one of them. That wasn't the problem. The problem was that I didn't actually want to spend the next five years building software for short-term rental investing. I'd enjoyed learning the industry. I'd enjoyed building the product. But I didn't care enough about the problem itself to keep showing up for it. Curiosity is enough to build an MVP. It isn't enough to build a company.</p>
+          <h5>Looking forward</h5>
+          <p>This project reinforced a lot of what Underlink had already taught me — talk to users earlier, understand the market, understand the business model, validate demand before writing too much code. But it also taught me something new: looking back, I don't think this project was ever really about short-term rentals. It was another chance to walk into an industry I knew nothing about, learn how experts make decisions, and figure out what software could take off their plate. I've now done that twice. At some point, it stops feeling like a coincidence and starts feeling like a pattern. I'm less interested in a specific industry and more interested in a specific kind of problem: messy data, fragmented information, complex workflows, figuring out what software can automate. That's the thread I'm going to keep pulling on. On to attempt #3.</p>
         </div>
       </details>
     </div>
@@ -368,7 +415,7 @@
           </div>
         </div>
         <div class="timeline reveal">
-          <div class="tl-item"><div class="tl-date">2026 — Present</div><h4>Founder / Builder</h4><div class="tl-sub">Working on attempt 02 — Attempt 01 (Underlink) documented below</div></div>
+          <div class="tl-item"><div class="tl-date">2026 — Present</div><h4>Founder / Builder</h4><div class="tl-sub">Working on attempt 03 — Attempts 01–02 documented below</div></div>
           <div class="tl-item"><div class="tl-date">Dec 2021 — Jan 2024</div><h4>Software Engineer, Hopscotch</h4><div class="tl-sub">Founding engineer · payments, compliance tooling, auth</div></div>
           <div class="tl-item"><div class="tl-date">2013 — 2018</div><h4>Berkeley College</h4><div class="tl-sub">B.S., Legal Studies — Cum Laude</div></div>
           <div class="tl-item"><div class="tl-date">2012 — 2013</div><h4>Web Developer, Passaic County Technical Institute</h4><div class="tl-sub">Website updates in HTML/CSS · code review for browser & device compatibility</div></div>
@@ -394,7 +441,7 @@
 
 <footer>
   <div class="wrap foot-row">
-    <p>© 2026 Karina Pichardo. Attempt 01 of 25 documented.</p>
+    <p>© 2026 Karina Pichardo. Attempt 02 of 25 documented.</p>
     <p>Built in public.</p>
   </div>
 </footer>
@@ -438,14 +485,15 @@
 </script>
 
 <script>
+  const attemptLinks = { 1: '#attempt-01', 2: '#attempt-02' };
   const grid = document.getElementById('counterGrid');
   for(let i=1;i<=25;i++){
-    const isDone = i===1;
+    const isDone = attemptLinks.hasOwnProperty(i);
     const cell = document.createElement(isDone ? 'a' : 'div');
     cell.className = 'cell' + (isDone ? ' active' : '');
     cell.textContent = String(i).padStart(2,'0');
-    cell.title = isDone ? 'Attempt 01 — Underlink' : 'Attempt ' + String(i).padStart(2,'0') + ' — not started';
-    if(isDone){ cell.href = '#attempt-01'; cell.style.textDecoration = 'none'; cell.style.cursor = 'pointer'; }
+    cell.title = isDone ? 'Attempt ' + String(i).padStart(2,'0') : 'Attempt ' + String(i).padStart(2,'0') + ' — not started';
+    if(isDone){ cell.href = attemptLinks[i]; cell.style.textDecoration = 'none'; cell.style.cursor = 'pointer'; }
     grid.appendChild(cell);
   }
 </script>
