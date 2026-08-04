@@ -101,6 +101,7 @@
   .build-head{display:flex; justify-content:space-between; align-items:flex-start; gap:22px; flex-wrap:wrap;}
   .build-head h3{font-size:25px; font-weight:600;}
   .status-tag{font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; background:var(--sage-soft); color:var(--sage); white-space:nowrap;}
+  .status-tag.coral{background:var(--coral-soft); color:var(--coral);}
   .build-tagline{color:var(--coral); font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12.5px; margin-top:8px;}
   .build-desc{margin-top:18px; line-height:1.75; color:var(--ink-soft); max-width:620px; font-size:15px; font-weight:500;}
   .build-preview{margin-top:20px; border-radius:12px; overflow:hidden; border:1px solid var(--line); background:var(--bg);}
@@ -142,17 +143,37 @@
   .article-toggle .chevron{display:inline-block; transition:transform .18s ease;}
   details[open] .article-toggle .chevron{transform:rotate(90deg);}
   .article-body{padding:0 30px 34px; color:var(--ink-soft); font-size:15px; line-height:1.85; max-width:670px; font-weight:500;}
+  #teardown-corgi .article-body{max-width:none;}
   .article-body p{margin:0 0 15px;}
   .article-body .quote{border-left:3px solid var(--coral); padding-left:16px; font-style:italic; color:var(--ink); margin:18px 0; font-weight:600;}
   .article-body h5{font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--sage); margin:26px 0 10px; font-weight:700;}
 
   .teardown-template{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:34px 38px; box-shadow:0 4px 16px rgba(43,35,28,.03);}
-  .qgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px 28px; margin-top:22px;}
+  .qgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px 28px; margin-top:22px; align-items:start;}
   @media (max-width:700px){ .qgrid{grid-template-columns:1fr;} }
   .qitem{display:flex; gap:11px; padding:11px 13px; border-radius:10px; background:var(--bg);}
   .qitem .qn{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--coral); font-weight:700; flex-shrink:0; padding-top:2px;}
   .qitem .qt{font-size:14px; color:var(--ink-soft); font-weight:600;}
   .empty-note{margin-top:24px; padding-top:20px; border-top:1px dashed var(--line); font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--muted); font-weight:700;}
+  .qa-item{border-radius:10px; background:var(--bg); overflow:hidden; margin-bottom:10px;}
+.qa-item summary{display:flex; gap:11px; padding:11px 13px; cursor:pointer; list-style:none; align-items:center;}
+.qa-item summary::-webkit-details-marker{display:none;}
+.qa-item summary .qn{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--coral); font-weight:700; flex-shrink:0;}
+.qa-item summary .qt{font-size:14px; color:var(--ink-soft); font-weight:600;}
+.qa-item summary .qtoggle{margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--coral); transition:transform .18s ease; flex-shrink:0;}
+.qa-item[open] summary .qtoggle{transform:rotate(90deg);}
+.qa-item .qa-body{padding:0 13px 16px 40px; color:var(--ink-soft); font-size:14.5px; line-height:1.8; font-weight:500;}
+.qa-item .qa-body p{margin:0 0 12px;}
+.qa-item .qa-body .quote{border-left:3px solid var(--coral); padding-left:14px; font-style:italic; color:var(--ink); margin:14px 0; font-weight:600;}
+  .tdq{border-radius:10px; background:var(--bg); margin-bottom:10px; overflow:hidden;}
+  .tdq summary{padding:13px 16px; cursor:pointer; list-style:none; display:flex; gap:11px; align-items:center; font-size:14px; font-weight:600; color:var(--ink-soft);}
+  .tdq summary::-webkit-details-marker{display:none;}
+  .tdq summary .qn{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--coral); font-weight:700;}
+  .tdq summary .qtoggle{margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--coral); transition:transform .18s ease;}
+  .tdq[open] summary .qtoggle{transform:rotate(90deg);}
+  .tdq .tdq-body{padding:0 16px 16px 42px; color:var(--ink-soft); font-size:14.5px; line-height:1.8; font-weight:500;}
+  .tdq .tdq-body p{margin:0 0 12px;}
+  .tdq .tdq-body .quote{border-left:3px solid var(--coral); padding-left:14px; font-style:italic; color:var(--ink); margin:14px 0; font-weight:600;}
 
   .about-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:52px; align-items:start;}
   @media (max-width:800px){ .about-grid{grid-template-columns:1fr;} }
@@ -384,21 +405,92 @@
   <section id="research">
     <div class="wrap">
       <div class="section-head reveal"><span class="eyebrow">Research</span><h2>Startup teardowns</h2></div>
-      <p class="section-sub">Same eight questions, every company — a fast way to build real investor intuition in public.</p>
-      <div class="teardown-template reveal">
-        <div class="eyebrow">The template</div>
-        <div class="qgrid">
-          <div class="qitem"><span class="qn">01</span><span class="qt">What do they do?</span></div>
-          <div class="qitem"><span class="qn">02</span><span class="qt">Who are the customers?</span></div>
-          <div class="qitem"><span class="qn">03</span><span class="qt">How do they make money?</span></div>
-          <div class="qitem"><span class="qn">04</span><span class="qt">How much have they raised?</span></div>
-          <div class="qitem"><span class="qn">05</span><span class="qt">What's the valuation?</span></div>
-          <div class="qitem"><span class="qn">06</span><span class="qt">Why are investors excited?</span></div>
-          <div class="qitem"><span class="qn">07</span><span class="qt">What am I skeptical about?</span></div>
-          <div class="qitem"><span class="qn">08</span><span class="qt">What do I still not understand?</span></div>
+      <p class="section-sub">Same eight questions, every company — a fast way to build real investor intuition in public. <span class="status-tag coral">1 of 100 done.</span></p>
+      <details class="article-card reveal" id="teardown-corgi" style="margin-top:22px;">
+        <summary class="article-summary">
+          <div><h3>Corgi — Teardown #1</h3><div class="article-meta">STARTUP TEARDOWN · AI-NATIVE INSURANCE CARRIER</div></div>
+          <span class="article-toggle"><span class="chevron">▸</span> Read</span>
+        </summary>
+        <div class="article-body">
+      
+            <details class="qa-item">
+              <summary><span class="qn">01</span><span class="qt">What do they do?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>Corgi is a licensed insurance carrier built specifically for venture-backed startups. That means they don't just sell insurance like a broker — they actually underwrite and provide insurance directly to startups.</p>
+                <p>Startups need insurance for all kinds of reasons: investors often require it before closing a funding round, enterprise customers require it before signing contracts, and it protects founders and the company if they're sued.</p>
+                <p>Traditionally, getting this insurance can take weeks and cost tens of thousands of dollars. Corgi says it can approve companies in minutes, with policies starting around $2,000–$5,000 per year.</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">02</span><span class="qt">Who are the customers?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>Their customers are venture-backed startups and high-growth technology companies. Many of these startups sell to Fortune 500 companies, banks, and other highly regulated enterprises — customers that often require vendors to have insurance before they'll sign a contract.</p>
+                <p>They're also a Y Combinator company, which gives them access to thousands of startups that need insurance from day one. As these startups grow, their insurance needs grow too — meaning Corgi can earn more premium revenue without finding an entirely new customer.</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">03</span><span class="qt">How do they make money?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p><b>Premiums:</b> customers pay annual insurance premiums.</p>
+                <p><b>AI-powered underwriting:</b> insurance companies make money when premiums collected are greater than claims paid. Corgi uses AI to analyze company data — pitch decks, SOC 2 reports, GitHub repositories, and more — to price risk faster and, they argue, more accurately than traditional insurers.</p>
+                <p><b>Insurance float:</b> claims aren't paid immediately, so Corgi collects premiums today and can invest that money in relatively safe assets until claims come due, potentially generating additional investment income.</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">04</span><span class="qt">How much have they raised?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>Jan 2026 — Seed + Series A: $108M total<br>
+                May 2026 — Series B: $160M<br>
+                May 2026 (3 weeks later) — Series B1: $106M<br>
+                July 2026 — another round, amount unconfirmed (leaked, not formally announced)</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">05</span><span class="qt">What's the valuation?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>Jan 2026: $630M<br>
+                May 2026: $1.3B<br>
+                May 2026 (3 weeks later): $2.6B<br>
+                July 2026 (current): $4B</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">06</span><span class="qt">Why are investors excited?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>The growth is what immediately stands out. At the beginning of 2026, Corgi was reportedly generating roughly $40–45M in annualized revenue. By the end of the year, it's expected to reach around $450M.</p>
+                <p>Unlike many software startups, insurance can become extremely profitable if you consistently price risk correctly. Investors also believe Corgi is becoming the default insurance provider for venture-backed startups — if true, every new startup that gets funded becomes a potential customer.</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">07</span><span class="qt">What am I skeptical about?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>What surprised me most was the valuation. Corgi reportedly went from a $1.3B valuation to roughly $2.6B only a few weeks later.</p>
+                <div class="quote">What changed during that period to justify doubling the company's value?</div>
+                <p>I understand investors are betting on future growth, but I want to know what changed in those three weeks specifically. Can they maintain underwriting quality while growing this fast? I'm also curious how Corgi manages the risk of a catastrophic claim.</p>
+              </div>
+            </details>
+      
+            <details class="qa-item">
+              <summary><span class="qn">08</span><span class="qt">What do I still not understand?</span><span class="qtoggle">▸</span></summary>
+              <div class="qa-body">
+                <p>• How does Corgi buy reinsurance directly, and why is that such a competitive advantage?<br>
+                • How were they able to acquire an insurance carrier so early in the company's life?<br>
+                • How much capital is required to become a licensed insurance carrier?<br>
+                • If they didn't raise until 2026, how did they finance the business while operating in stealth?<br>
+                • How much of Corgi's underwriting is actually automated versus still relying on human experts?</p>
+              </div>
+            </details>
+      
+          <div class="quote" style="margin-top:20px;">Most startups build software for an industry. Corgi became the industry. Instead of selling software to insurance companies, they became a licensed insurance carrier — and that's what makes this business so interesting.</div>
         </div>
-        <div class="empty-note">No teardowns published yet — the first one lands here, plus a linked video breakdown.</div>
-      </div>
+      </details>
+  
     </div>
   </section>
 
