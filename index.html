@@ -266,9 +266,9 @@
           <span class="status-tag">Attempt 01</span>
         </div>
         <p class="build-desc">An AI-powered platform that pulls PLUTO, ACRIS, DOB, HPD, DOF, ECB, BIS, permits, complaints, and mortgage history for any NYC property into one place — so a private lender can get a lending recommendation, red flags, and a credit memo in under a minute instead of hours of manual research. Built solo: landing page, branding, frontend, backend, AI layer, database, integrations, pricing, and roadmap.</p>
-        <div class="build-preview" id="previewWrap">
-          <video src="./underlink-demo.mp4" autoplay muted loop playsinline id="demoVideo"></video>
-          <div class="preview-progress"><div class="preview-progress-bar" id="previewProgressBar"></div></div>
+        <div class="build-preview">
+          <video src="./underlink-demo.mp4" autoplay muted loop playsinline></video>
+          <div class="preview-progress"><div class="preview-progress-bar"></div></div>
           <div class="expand-hint">⤢ Tap to expand</div>
         </div>
         <div class="metrics-row">
@@ -296,6 +296,11 @@
           <span class="status-tag">Attempt 02</span>
         </div>
         <p class="build-desc">A lead qualification and deal-screening tool for short-term rental investors. Enter a property address and get an instant go/no-go on whether it clears a 15% yield threshold — using real property data, revenue estimates, actual comparable listings, and a full expense model. Built after manually underwriting around 40 properties by hand first, to understand how experienced investors actually make the call.</p>
+        <div class="build-preview">
+          <video src="./STRVid.mp4" autoplay muted loop playsinline></video>
+          <div class="preview-progress"><div class="preview-progress-bar"></div></div>
+          <div class="expand-hint">⤢ Tap to expand</div>
+        </div>
         <div class="metrics-row">
           <div class="metric"><span class="num">40</span><span class="label">Properties underwritten by hand first</span></div>
           <div class="metric"><span class="num">3</span><span class="label">APIs integrated</span></div>
@@ -499,28 +504,28 @@
 </script>
 
 <script>
-  const demoVideo = document.getElementById('demoVideo');
-  const previewBar = document.getElementById('previewProgressBar');
-  const previewWrap = document.getElementById('previewWrap');
-  if(demoVideo && previewBar){
-    demoVideo.addEventListener('timeupdate', () => {
-      if(demoVideo.duration){
-        previewBar.style.width = (demoVideo.currentTime / demoVideo.duration * 100) + '%';
+  document.querySelectorAll('.build-preview').forEach(wrap => {
+    const video = wrap.querySelector('video');
+    const bar = wrap.querySelector('.preview-progress-bar');
+    if(!video) return;
+    video.addEventListener('timeupdate', () => {
+      if(video.duration){
+        bar.style.width = (video.currentTime / video.duration * 100) + '%';
       }
     });
-  }
-  if(previewWrap && demoVideo){
-    previewWrap.addEventListener('click', () => {
-      if(demoVideo.requestFullscreen) demoVideo.requestFullscreen();
-      else if(demoVideo.webkitEnterFullscreen) demoVideo.webkitEnterFullscreen();
-      else if(demoVideo.webkitRequestFullscreen) demoVideo.webkitRequestFullscreen();
+    wrap.addEventListener('click', () => {
+      if(video.requestFullscreen) video.requestFullscreen();
+      else if(video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+      else if(video.webkitRequestFullscreen) video.webkitRequestFullscreen();
     });
-  }
+  });
   document.addEventListener('visibilitychange', () => {
-    if(!document.hidden && demoVideo){ demoVideo.play().catch(()=>{}); }
+    if(!document.hidden){
+      document.querySelectorAll('.build-preview video').forEach(v => v.play().catch(()=>{}));
+    }
   });
   window.addEventListener('pageshow', () => {
-    if(demoVideo){ demoVideo.play().catch(()=>{}); }
+    document.querySelectorAll('.build-preview video').forEach(v => v.play().catch(()=>{}));
   });
 </script>
 
